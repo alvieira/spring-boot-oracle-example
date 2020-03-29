@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -38,12 +39,12 @@ public class ProductRepositoryTest {
         //when
         productRepository.save(product);
 
-        //then
+      //then
         Assert.assertNotNull(product.getId());
-        Product newProduct = productRepository.findOne(product.getId());
-        Assert.assertEquals((Long) 1L, newProduct.getId());
-        Assert.assertEquals(PRODUCT_DESCRIPTION, newProduct.getDescription());
-        Assert.assertEquals(BIG_DECIMAL_100.compareTo(newProduct.getPrice()), 0);
-        Assert.assertEquals(IMAGE_URL, newProduct.getImageUrl());
+        Optional<Product> newProduct = productRepository.findById(product.getId());
+        Assert.assertEquals((Long) 1L, newProduct.get().getId());
+        Assert.assertEquals(PRODUCT_DESCRIPTION, newProduct.get().getDescription());
+        Assert.assertEquals(BIG_DECIMAL_100.compareTo(newProduct.get().getPrice()), 0);
+        Assert.assertEquals(IMAGE_URL, newProduct.get().getImageUrl());
     }
 }
